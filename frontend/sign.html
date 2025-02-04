@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        async function handlesubmit(event){
+         event.preventDefault();
+ 
+         const firstname =document.getElementById("firstname").value;
+         const lastname =document.getElementById("lastname").value;
+         const username =document.getElementById("username").value;
+         const password = document.getElementById("password").value;
+         const userRole = document.getElementById("userRole").value;
+         
+         const respones= await fetch("http://127.0.01:8000/sign",{
+                         method:'POST',
+                         headers:{
+                             'Content-Type': 'application/json'
+                         },
+                         credentials:"include",//to asscept cookie we use creadentials attribute
+                         body: JSON.stringify({
+                             FirstName:firstname,
+                             LastName:lastname,
+                             UserName:username,
+                             password:password,
+                             UserRole:userRole
+ 
+                         })
+                       
+         })
+         console.log(respones.status);
+          if(respones.status=='201'){
+              window.location.href="login.html";
+          }
+          else if(respones.status=='400'){
+              alert("username already exist");
+          }
+          else{
+              alert("Try after sometimes");
+          }
+        }
+     </script>
+</head>
+<body class="bg-fixed bg-cover"style="background-image: url(img/aimg4.jpeg)">
+<div class="flex">
+    <div class="bg-orange-200 w-[450px] h-[600px] ml-20 mt-20 rounded-3xl drop-shadow-2xl">
+        <h1 class="text-center pt-14 font-serif font-bold text-4xl">Sign Up</h1>
+        <form class="px-16 space-y-4 pt-9" onsubmit="handlesubmit(event)">
+            <label for="name">First Name:</label>
+            <input type="text"required placeholder="Enter the Name" id="firstname" class="w-[320px] border-2 border-black hover:ring-2 ring-orange-950"><br>
+            <label for="email">Last Name:</label>
+            <input type="text"required placeholder="Enter your Last Name" id="lastname" class="w-[320px] border-2 border-black hover:ring-2 ring-orange-950"><br>
+            <label for="email">User Name:</label>
+            <input type="text"required placeholder="Enter a UserName" id="username" class="w-[320px] border-2 border-black hover:ring-2 ring-orange-950"><br>
+            <label for="password">Password:</label>
+            <input type="password"required placeholder="Password" id="password" class="w-[320px] border-2 border-black hover:ring-2 ring-orange-950"><br>
+            <label >UserRole:</label><br>
+            <select class="w-[320px] border-2 border-black hover:ring-2 ring-orange-950" id="userRole">
+               <option value="User">User</option>
+               <option value="Admin">Admin</option>
+            </select><br>
+            <button type="submit" class="bg-orange-950 w-[100px] rounded-xl"><a href="home.html" class="text-white hover:text-orange-600">Sign in</a></button><br>
+            <div class="flex space-x-20">
+              <p>Already have an account?</p>
+              <a href="userlogin.html"class="text-orange-950 hover:text-orange-600">Login</a>
+            </div>
+        </form>
+    </div>
+    <div class="my-auto ml-10">
+        <p class="text-4xl text-white font-bold font-serif">"I do belive something very Magical can happend when you raed a good book"</p>
+        <p class="text-white text-xl text-right mr-48 font-semibold font-serif">_Jk.Rowling</p>
+    </div>
+</div>
+</body>
+</html>
